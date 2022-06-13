@@ -8,13 +8,33 @@
 import SwiftUI
 
 struct TitleView: View {
+    @Binding var sharedValue: Int
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct TitleView_Previews: PreviewProvider {
-    static var previews: some View {
-        TitleView()
+        VStack{
+            Text(Constants.CreateSpaceShip.description)
+                .multilineTextAlignment(.center)
+                .lineSpacing(8)
+                .font(Font.Atures(.regular, size: 14))
+                .foregroundColor(Colors.purple)
+                .padding()
+            Line()
+                .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter , dash: [10]))
+                .frame(height: 1)
+                .padding(.horizontal)
+            HStack{
+                Text(Constants.CreateSpaceShip.pointsShared)
+                    .font(Font.Atures(.bold, size: 18))
+                    .foregroundColor(Colors.purple)
+                    .padding()
+                Spacer()
+                Text("\(sharedValue)")
+                    .font(Font.Atures(.black, size: 18))
+                    .foregroundColor(Colors.purple).padding()
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Colors.yellow)
+        )
+        .padding(.horizontal)
     }
 }

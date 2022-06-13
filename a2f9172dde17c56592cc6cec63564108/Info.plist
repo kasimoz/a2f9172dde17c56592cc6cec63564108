@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Atures-100_PERSONAL_USE.ttf</string>
+		<string>Atures-300_PERSONAL_USE.ttf</string>
+		<string>Atures-500_PERSONAL_USE.ttf</string>
+		<string>Atures-700_PERSONAL_USE.ttf</string>
+		<string>Atures-900_PERSONAL_USE.ttf</string>
+	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>navyBlueColor</string>
+	</dict>
+</dict>
+</plist>

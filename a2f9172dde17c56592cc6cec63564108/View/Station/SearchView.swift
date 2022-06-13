@@ -7,14 +7,26 @@
 
 import SwiftUI
 
-struct SearchView: View {
+struct SearchView : View {
+    @Binding var searchQuery: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct SearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchView()
+        HStack (spacing : 10){
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(Colors.purple)
+            TextField("", text: $searchQuery)
+                .font(Font.Atures(.regular, size: 14))
+                .foregroundColor(Colors.darkPurple)
+                .placeHolder(
+                    Text(Constants.Stations.stationName)
+                        .font(Font.Atures(.regular, size: 14))
+                        .foregroundColor(Colors.purple)
+                    , show: searchQuery.isEmpty)
+        }
+        .frame(height: 48)
+        .padding(.horizontal)
+        .background(Color.white)
+        .cornerRadius(24)
+        .shadow(color: Colors.pink, radius: 5)
+        .padding()
     }
 }

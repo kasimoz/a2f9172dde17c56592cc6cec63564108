@@ -6,13 +6,16 @@
 //
 
 import Foundation
-struct SpaceStation : Codable {
-    let name : String?
-    let coordinateX : Double?
-    let coordinateY : Double?
-    let capacity : Int?
-    let stock : Int?
-    let need : Int?
+struct SpaceStation : Codable, Identifiable {
+    var id = UUID().uuidString
+    var name : String?
+    var coordinateX : Double?
+    var coordinateY : Double?
+    var capacity : Int?
+    var stock : Int?
+    var need : Int?
+    var image : String?
+    var isFavorite : Bool = false
 
     enum CodingKeys: String, CodingKey {
 
@@ -32,6 +35,19 @@ struct SpaceStation : Codable {
         capacity = try values.decodeIfPresent(Int.self, forKey: .capacity)
         stock = try values.decodeIfPresent(Int.self, forKey: .stock)
         need = try values.decodeIfPresent(Int.self, forKey: .need)
+        image = Constants.Planet.list[name == Constants.MainStation.name ? 0 : Int.random(in: 1..<10)]
+    }
+    
+    init(id :String, name: String?, image: String?, coordinateX : Double?, coordinateY : Double?, capacity : Int?, stock : Int, need : Int?, isFavorite: Bool){
+        self.id = id
+        self.name = name
+        self.image = image
+        self.coordinateX = coordinateX
+        self.coordinateY = coordinateY
+        self.capacity = capacity
+        self.stock = stock
+        self.need = need
+        self.isFavorite = isFavorite
     }
 
 }

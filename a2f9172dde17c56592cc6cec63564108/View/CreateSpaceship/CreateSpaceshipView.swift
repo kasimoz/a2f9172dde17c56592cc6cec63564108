@@ -70,7 +70,7 @@ struct CreateSpaceshipView: View {
                             .frame(width: 132)
                             .padding(4)
                     }
-                    .background(.black.opacity(0.25))
+                    .background(Colors.sliderColor)
                     .clipShape(Capsule())
                     .padding(32)
                 }
@@ -78,7 +78,7 @@ struct CreateSpaceshipView: View {
         }.onAppear(){
             self.createSpaceshipViewModel.setup(self.viewContext)
             self.createSpaceshipViewModel.fetchSpaceship()
-        }.background(Colors.darkPurple.ignoresSafeArea())
+        }.background(Colors.backgroundColor.ignoresSafeArea())
             .overlay(
                 ZStack{
                     if createSpaceshipViewModel.success {
@@ -93,141 +93,5 @@ struct CreateSpaceshipView: View {
 struct CreateSpaceshipView_Previews: PreviewProvider {
     static var previews: some View {
         CreateSpaceshipView()
-    }
-}
-
-struct TitleView: View {
-    @Binding var sharedValue: Int
-    var body: some View {
-        VStack{
-            Text(Constants.CreateSpaceShip.description)
-                .multilineTextAlignment(.center)
-                .lineSpacing(8)
-                .font(Font.Atures(.regular, size: 14))
-                .foregroundColor(Colors.purple)
-                .padding()
-            Line()
-                .stroke(Color.purple, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter , dash: [10]))
-                .frame(height: 1)
-                .padding(.horizontal)
-            HStack{
-                Text(Constants.CreateSpaceShip.pointsShared)
-                    .font(Font.Atures(.bold, size: 18))
-                    .foregroundColor(Colors.purple)
-                    .padding()
-                Spacer()
-                Text("\(sharedValue)")
-                    .font(Font.Atures(.black, size: 18))
-                    .foregroundColor(Colors.purple).padding()
-            }
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 10, style: .continuous).fill(Colors.yellow)
-        )
-        .padding(.horizontal)
-    }
-}
-
-struct NameView : View {
-    @Binding var spaceshipName: String
-    var body: some View {
-        HStack (spacing : 10){
-            Image(systemName: "airplane.circle")
-                .foregroundColor(Colors.lightPurple)
-            TextField("", text: $spaceshipName)
-                .font(Font.Atures(.regular, size: 14))
-                .foregroundColor(Colors.darkPurple)
-                .placeHolder(
-                    Text(Constants.CreateSpaceShip.spaceshipName)
-                        .font(Font.Atures(.regular, size: 14))
-                        .foregroundColor(Colors.lightPurple)
-                    , show: spaceshipName.isEmpty)
-        }
-        .padding(.vertical, 10)
-        .padding(.horizontal)
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(color: Colors.orange, radius: 2)
-        .padding()
-    }
-}
-
-struct CustomSlider: View {
-    @Binding var properties : [Property]
-    @Binding var property : Property
-    @Binding var sharedValue: Int
-    var body: some View {
-        VStack{
-            HStack {
-                Text(property.name)
-                    .font(Font.Atures(.bold, size: 14))
-                    .foregroundColor(Colors.orange)
-                Spacer()
-                Text("\(property.value)")
-                    .font(Font.Atures(.black, size: 14))
-                    .foregroundColor(Colors.orange).padding()
-            }
-            ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)){
-                Capsule()
-                    .fill(Color.black.opacity(0.25))
-                    .frame(height: 20)
-                Capsule()
-                    .fill(property.color)
-                    .frame(width : property.offset + 16, height: 20)
-                Circle()
-                    .fill(Colors.yellow)
-                    .frame(width: 24, height: 24)
-                    .background(Circle().stroke(.white, lineWidth: 6))
-                    .offset(x: property.offset)
-                    .gesture(DragGesture().onChanged({ value in
-                        if value.location.x >= 12 && value.location.x <= getRect().width - 44 {
-                            let result = calculate(offset: value.location.x - 12)
-                            property.offset = CGFloat(result)
-                            switch property.type {
-                            case .capacity:
-                                let f1 = (properties[2].offset + properties[0].offset)
-                                let f2 = properties[1].offset
-                                if  f1 + f2  > getRect().width - 44 {
-                                    property.offset = CGFloat(calculate(offset: getRect().width - 44 - (properties[0].offset + properties[1].offset)))
-                                }
-                                break
-                            case .durability:
-                                let f1 = (properties[0].offset + properties[1].offset)
-                                let f2 = properties[2].offset
-                                if  f1 + f2  > getRect().width - 44 {
-                                    property.offset = CGFloat(calculate(offset: getRect().width - 44 - (properties[1].offset + properties[2].offset)))
-                                }
-                                break
-                            case .speed:
-                                let f1 = (properties[1].offset + properties[0].offset)
-                                let f2 = properties[2].offset
-                                if  f1 + f2  > getRect().width - 44 {
-                                    property.offset = CGFloat(calculate(offset: getRect().width - 44 - (properties[0].offset + properties[2].offset)))
-                                }
-                                break
-                            }
-                            if let index = index(offset: Int(property.offset)) {
-                                property.value = index
-                                sharedValue = 15 - properties.map({$0.value}).reduce(0, +)
-                            }
-                        }
-                        
-                    }))
-            }
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 32)
-    }
-    
-    func calculate(offset : CGFloat) -> Int{
-        let array: Array<Int> = Array(0...Int(getRect().width - 44)).filter({$0 % Int((getRect().width - 32) / 15) == 0 })
-        return array.reduce(100, { x, y in
-            abs(Double(x) - offset) > abs(Double(y) - offset) ? y : x
-        })
-    }
-    
-    func index(offset : Int) -> Int?{
-        let array: Array<Int> = Array(0...Int(getRect().width - 44)).filter({$0 % Int((getRect().width - 32) / 15) == 0 })
-        return array.firstIndex(of: offset)
     }
 }

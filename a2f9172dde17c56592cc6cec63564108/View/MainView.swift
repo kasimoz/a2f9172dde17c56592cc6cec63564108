@@ -7,37 +7,50 @@
 
 import SwiftUI
 
-struct Main2View: View {
+struct MainView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State var currentTab : Tab = .Station
+    @ObservedObject var createSpaceshipViewModel : CreateSpaceshipViewModel
+    @State var currentTab : TabType = .station
     @Namespace var animation
+    @State private var tabs = [
+        TabItem(image: Constants.TabsImage.station, name: Constants.Tabs.station, type: .station),
+        TabItem(image: Constants.TabsImage.favorites, name: Constants.Tabs.favorites, type: .favorites)
+    ]
     
-    
+    init(createSpaceshipViewModel : CreateSpaceshipViewModel){
+        self.createSpaceshipViewModel = createSpaceshipViewModel
+        UITabBar.appearance().isHidden = true
+    }
     
     var body: some View {
-        ZStack{
-            TabView(selection: $currentTab){
-               /* StationView()
-                    .environment(\.managedObjectContext, viewContext)
-                    .tag(Tab.Station)
+        GeometryReader{proxy in
+            VStack(alignment: .trailing, spacing: 0){
+                TabView(selection: $currentTab){
+                    StationView(createSpaceshipViewModel: self.createSpaceshipViewModel)
+                        .environment(\.managedObjectContext, viewContext)
+                        .tag(TabType.station)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Colors.backgroundColor)
+                    FavoritesView()
+                        .environment(\.managedObjectContext, viewContext)
+                        .tag(TabType.favorites)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Colors.backgroundColor)
+                }
                 
-                FavoritesView()
-                    .environment(\.managedObjectContext, viewContext)
-                    .tag(Tab.Favorites)*/
+                CustomTabBar(animation: animation, tabs: tabs, currentTab : $currentTab)
+                    .background(Colors.tabColor)
+
+                
             }
-            
-            CustomTabBar(animation: animation, currentTab : $currentTab)
         }
+        
     }
 }
 
-struct Main2View_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        Main2View()
+        AppRootView()
     }
 }
 
-enum Tab : String, CaseIterable {
-    case Station = "antenna.radiowaves.left.and.right"
-    case Favorites = "star.fill"
-}

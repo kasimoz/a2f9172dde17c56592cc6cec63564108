@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct TabItem: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+struct TabItem : Identifiable, Hashable {
+    var id = UUID().uuidString
+    var image : String
+    var name : String
+    var type : TabType
 }
 
-struct TabItem_Previews: PreviewProvider {
-    static var previews: some View {
-        TabItem()
-    }
+enum TabType : String {
+    case station = "station"
+    case favorites = "favorites"
 }
+
+

@@ -7,14 +7,52 @@
 
 import SwiftUI
 
-struct InformationView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-struct InformationView_Previews: PreviewProvider {
-    static var previews: some View {
-        InformationView()
+struct InformationView : View{
+    var ugs : Int32
+    var eus : Int32
+    var ds : Int32
+    
+    var body: some View{
+        HStack {
+            ZStack {
+                Text("\(Constants.Damage.UGS)\n\(ugs)")
+                    .font(Font.Atures(.bold, size: 16))
+                    .lineSpacing(16)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .padding()
+            }.background(
+                Rectangle()
+                    .fill(Colors.lightBlue)
+                    .cornerRadius(10)
+            )
+            Spacer()
+            ZStack {
+                Text("\(Constants.Damage.EUS)\n\(eus)")
+                    .font(Font.Atures(.bold, size: 16))
+                    .lineSpacing(16)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .padding()
+            }.background(
+                Rectangle()
+                    .fill(Colors.blue)
+                    .cornerRadius(10)
+            )
+            Spacer()
+            ZStack {
+                Text("\(Constants.Damage.DS)\n\(ds)")
+                    .font(Font.Atures(.bold, size: 16))
+                    .lineSpacing(16)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.white)
+                    .padding()
+            }.background(
+                Rectangle()
+                    .fill(Colors.pink)
+                    .cornerRadius(10)
+            )
+        }
+        .padding(.horizontal)
     }
 }
